@@ -3,6 +3,27 @@
 class obj implements ArrayAccess {
     private $container = array();
 
+    public function offsetSet($offset, $value) {
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
+    }
+
+    public function offsetExists($offset) {
+        return isset($this->container[$offset]);
+    }
+
+    public function offsetUnset($offset) {
+        unset($this->container[$offset]);
+    }
+
+    public function offsetGet($offset) {
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+    }
+
+
 
 /*
     public function __construct() {
@@ -38,7 +59,7 @@ $doc = new DOMDocument();
 // example 5:
 $elements = $doc->getElementsByTagName('img');
 
-
+$this->container['elements']=$elements;
 /*
 if (!is_null($elements)) {
   foreach ($elements as $element) {
@@ -55,7 +76,18 @@ if (!is_null($elements)) {
 
 foreach ($elements as $element) {
        echo $element->getAttribute('src').' | '.$element->nodeValue."\n";
-       $this->container[$element->nodeValue]=$element->getAttribute('src');
+       echo "</br>";
+       $string=$element->getAttribute('src');
+    //   $pstring=preg_match(/)
+
+    //Здесь получает, но перезаписывает
+    $ext=pathinfo($string,PATHINFO_EXTENSION);
+    $this->container[$ext]=$string;
+
+
+
+      //
+    //   $this->container[$element]=$element->getAttribute('src');
 
 }
 
@@ -73,25 +105,7 @@ foreach ($elements as $element) {
 
 
 
-    public function offsetSet($offset, $value) {
-        if (is_null($offset)) {
-            $this->container[] = $value;
-        } else {
-            $this->container[$offset] = $value;
-        }
-    }
 
-    public function offsetExists($offset) {
-        return isset($this->container[$offset]);
-    }
-
-    public function offsetUnset($offset) {
-        unset($this->container[$offset]);
-    }
-
-    public function offsetGet($offset) {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
-    }
 
 
     /* MAGIC FUNC */
@@ -122,8 +136,7 @@ foreach ($elements as $element) {
            trigger_error(
                'Неопределенное свойство в __get(): ' . $offset .
                ' в файле ' . $trace[0]['file'] .
-               ' на строке ' . $trace[0]['line'],
-               E_USER_NOTICE);
+               ' на строке ' . $trace[0]['line'],   E_USER_NOTICE);
            return null;
          }
        }
@@ -151,9 +164,10 @@ echo $obj->gif;
 
 //echo $obj->one;
 echo "</br>";
+//print_r($obj->elements);
+//var_dump($obj->elements);
 
-
-echo $obj->/static/img/homepage_banners/election-banner.gif ;
+// echo $obj->/static/img/homepage_banners/election-banner.gif;
 
 
 /*
