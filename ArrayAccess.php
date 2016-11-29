@@ -7,7 +7,7 @@ class obj implements ArrayAccess {
         if (is_null($offset)) {
             $this->container[] = $value;
         } else {
-            $this->container[$offset] = $value;
+            $this->container[$offset] =$value;
         }
     }
 
@@ -82,7 +82,7 @@ foreach ($elements as $element) {
 
     //Здесь получает, но перезаписывает
     $ext=pathinfo($string,PATHINFO_EXTENSION);
-    $this->container[$ext]=$string;
+    $this->container[$ext][]=$string;
 
 
 
@@ -117,7 +117,15 @@ foreach ($elements as $element) {
       } else{
       echo "Установка '$offset' в '$value'\n";
       echo"</br>";
+  //    $ret1=$this->container[$offset];
+
+  //    $arr1=$this->container;
+  //    array_push($this->container,$value);
+
       $this->container[$offset] = $value;
+  //  $valArr= array();
+  //  $valArr=$this->container[$offset];
+    //  $this->container[$offset] = array_push($valArr,$value);
     }
       # code...
     }
@@ -127,6 +135,9 @@ foreach ($elements as $element) {
            echo "Получение '$offset'\n";
            echo"</br>";
            if (isset($this->container[$offset])) {
+             $ret=$this->container[$offset];
+          //   echo $ret;
+          //   print_r($ret);
                return $this->container[$offset];
            }
            else {
@@ -152,15 +163,16 @@ $obj = new obj('http://giphy.com/');
 echo "Доступ к переменной класса как к элементу массива:";
 echo "</br>";
 //var_dump(obj["one"]);
-echo $obj['one'];
+//echo $obj['one'];
 echo "</br>";
 
+ //MAGIC *
 echo "тестируем магические функции";
 $obj->a=1;
 echo $obj->a;
 echo "</br>";
 
-echo $obj->gif;
+print_r( $obj->gif);
 
 //echo $obj->one;
 echo "</br>";
